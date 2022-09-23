@@ -14,4 +14,14 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
+    enum class Color(val value: Int) {
+        Red(1)
+    }
+
+    @Test
+    fun test() {
+
+    }
+
 }

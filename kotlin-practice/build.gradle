@@ -1,6 +1,12 @@
 plugins {
-    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+}
+
+def isApplication = rootProject.ext.isApplication
+if (isApplication) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
 }
 
 android {
@@ -9,6 +15,10 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 32
+
+        if (isApplication) {
+            applicationId "com.wwe"
+        }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"

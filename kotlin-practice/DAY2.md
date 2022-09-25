@@ -21,3 +21,9 @@ LazyThreadSafetyMode.SYNCHRONIZED 是默认的模式，多线程中使用，可�
 
 如果是在主线程中使用，和初始化相关的逻辑，建议使用 `LazyThreadSafetyMode.NONE` 模式，减少不必要的开销。
 
+## Sequences VS Iterator 
+
+https://mp.weixin.qq.com/s?__biz=MzAwNDgwMzU4Mw==&mid=2247484165&idx=1&sn=1be07137c226dc231c31792d00d0c4f0&scene=21#wechat_redirect
+
+
+

@@ -144,4 +144,23 @@ class ExampleUnitTest {
         // THEN
         assertEquals("Game over", result)
     }
+
+    @Test
+    fun test4() {
+        val s1 = Salary(10)
+        val s2 = Salary(20)
+
+        assertEquals("30", (s1 + s2).toString())
+
+        s1.run {
+
+        }
+    }
+
+    operator fun Salary.plus(other: Salary): Salary = Salary(base + other.base)
+    operator fun Salary.minus(other: Salary): Salary = Salary(base - other.base)
+
+    data class Salary(var base: Int = 100){
+        override fun toString(): String = base.toString()
+    }
 }

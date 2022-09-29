@@ -169,8 +169,6 @@ class ExampleUnitTest {
         assert(map == mapOf(1 to User(1, "Michal"), 2 to User(2, "Marek")) )
     }
 
-    data class User(val id: Int, val name: String)
-
     fun <T : Comparable<T>> List<T>.quickSort(): List<T> =
         if(size < 2) this
         else {

@@ -1,5 +1,7 @@
 package com.wwe
 
+import com.google.gson.Gson
+
 fun requestData(type: Int, call: (code: Int, type: Int) -> Unit) {
     call(200, type)
 }
@@ -16,3 +18,6 @@ class HappySingleton private constructor() {
         val INSTANCE2 by lazy { HappySingleton() }
     }
 }
+
+inline fun <reified T> Gson.fromJson(json: String) =
+    fromJson(json, T::class.java)

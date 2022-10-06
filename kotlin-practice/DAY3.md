@@ -51,6 +51,8 @@ public static void getOutFruits(List<? extends Fruit> basket) {
 总得来说，`List<Fruit>` 和 `List<Apple>` 之间没有任何继承关系。
 API的参数想要同时兼容2者，则只能使用 `PECS` 原则。这样做提升了API的灵活性，实现了泛型集合的多态。
 
+遵循这个原则的好处是，可以在编译阶段保证代码安全，减少未知错误的发生。
+
 Please ref: 
 
 https://mp.weixin.qq.com/s/hRSLXfakXPhGdKaCMQFHfw

@@ -33,4 +33,15 @@ class Day3Test {
 
         assert(method?.isAccessible == false)
     }
+
+    @Test
+    fun test4() {
+        var data: String? = null
+        data = ""
+        data?.let {
+            println("let")
+        } ?: run {
+            println("run")
+        }
+    }
 }

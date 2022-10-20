@@ -18,4 +18,15 @@ class Day4Test {
             println("data1 is null")
         }
     }
+
+    @Test
+    fun test2() {
+        data1?.apply {
+            data2?.apply {
+                println("data2")
+            }
+        } ?: run {
+            println("data1 is null")
+        }
+    }
 }

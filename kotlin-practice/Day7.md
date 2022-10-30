@@ -162,6 +162,10 @@ public inline operator fun <T> Lazy<T>.getValue(thisRef: Any?, property: KProper
 
 - notNull 可以用于基本数据类型的延迟初始化，而 `lateinit` 不可以。
 
+Ref:
+
+https://blog.csdn.net/willway_wang/article/details/120795321
+
 
 
 

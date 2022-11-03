@@ -24,6 +24,13 @@ val instantTaskExecutorRule = InstantTaskExecutorRule()
 
 一个测试中只能使用一个调度器实例，应共用该调度器。如果未指定，TestScope 将默认创建 `StandardTestDispatcher`，并将其用于运行顶级测试协程。
 
+- StandardTestDispatcher：
+>使用调度器将已在其上启动的协程加入队列，并在测试线程不繁忙时执行这些协程。
+> 您可以使用 advanceUntilIdle 等方法挂起测试线程，以允许其他加入队列的协程运行。
+
+- UnconfinedTestDispatcher：
+>以阻塞方式即刻运行新协程。这样做通常可以更轻松地编写测试，但会使您无法更好地控制测试期间协程的执行方式。
+
 ### StandardTestDispatcher
 
 **可通过多种方式让出测试协程，以让排队的协程运行。所有以下调用都可在返回之前让其他协程在测试线程上运行：**
@@ -52,6 +59,9 @@ fun standardTest() = runTest {
     assertEquals(listOf("Alice", "Bob"), userRepo.getAllUsers()) // ✅ Passes
 }
 ```
+
+如需测试协程，请使用 runTest 协程构建器。runTest 使用 TestCoroutineScheduler 跳过测试中的延迟过程，并允许您控制虚拟时间。
+您还可以根据需要使用此调度器创建其他测试调度程序。
 
 ### 注入测试调度程序
 

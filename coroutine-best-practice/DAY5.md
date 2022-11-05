@@ -175,15 +175,3 @@ suspend fun work() {
 Use the CoroutineScopes defined in Jetpack: viewModelScope or lifecycleScope that cancels their work when their scope completes. 
 If you’re creating your own CoroutineScope, make sure you’re tying it to a job and calling cancel when needed.
 
-## Ref:
-
-https://medium.com/androiddevelopers/easy-coroutines-in-android-viewmodelscope-25bffb605471
-
-https://medium.com/androiddevelopers/the-suspend-modifier-under-the-hood-b7ce46af624f
-
-https://medium.com/androiddevelopers/suspending-over-views-19de9ebd7020
-
-https://medium.com/androiddevelopers/coroutines-first-things-first-e6187bf3bb21
-
-https://www.youtube.com/watch?v=w0kfnydnFWI
-

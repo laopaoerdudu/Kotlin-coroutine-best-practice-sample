@@ -1,7 +1,6 @@
 package com.wwe.coroutine
 
 import kotlinx.coroutines.*
-import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 class DAY5Test {

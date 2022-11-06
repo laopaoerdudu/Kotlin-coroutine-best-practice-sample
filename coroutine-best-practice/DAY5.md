@@ -140,6 +140,7 @@ val job = launch {
    } catch (e: CancellationException){
       println(“Work cancelled!”)
     } finally {
+      // Recommendation: use it ONLY for suspending cleanup code.
       withContext(NonCancellable){
          delay(1000L) // or some other suspend fun 
          println(“Cleanup done!”)

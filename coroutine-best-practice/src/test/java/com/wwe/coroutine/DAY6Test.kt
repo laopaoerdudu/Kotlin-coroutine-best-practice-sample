@@ -92,6 +92,7 @@ class DAY6Test {
                  * but propagated up to the scope
                  */
                 println("WILL NOT catch Exception")
+                e.printStackTrace()
             }
         }
     }
@@ -128,7 +129,6 @@ class DAY6Test {
     @Test
     fun test_CoroutineExceptionHandler_uncaughtException() = runTest {
         val scope = CoroutineScope(Job())
-        // the exception will be caught by the handler:
         scope.launch {
             // the handler is installed in a inner coroutine, it won’t be caught exception
             /**

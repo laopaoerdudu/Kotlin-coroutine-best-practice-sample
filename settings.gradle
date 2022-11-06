@@ -16,3 +16,4 @@ rootProject.name = "Kotlin-coroutine-best-practice-sample"
 include ':app'
 include ':kotlin-practice'
 include ':coroutine-best-practice'
+include ':flow-best-practice'

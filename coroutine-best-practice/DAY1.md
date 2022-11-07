@@ -26,7 +26,7 @@ val instantTaskExecutorRule = InstantTaskExecutorRule()
 
 - StandardTestDispatcher：
 >使用调度器将已在其上启动的协程加入队列，并在测试线程不繁忙时执行这些协程。
-> 您可以使用 advanceUntilIdle 等方法挂起测试线程，以允许其他加入队列的协程运行。
+>您可以使用 advanceUntilIdle 等方法挂起测试线程，以允许其他加入队列的协程运行。
 
 - UnconfinedTestDispatcher：
 >以阻塞方式即刻运行新协程。这样做通常可以更轻松地编写测试，但会使您无法更好地控制测试期间协程的执行方式。

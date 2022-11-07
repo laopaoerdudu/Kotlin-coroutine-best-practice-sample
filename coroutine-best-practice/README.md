@@ -66,6 +66,51 @@ class LoginViewModel(
 >在协程内，调用 `loginRepository.makeLoginRequest()` 现在会挂起协程的进一步执行操作，直至 makeLoginRequest() 中的 withContext 块结束运行。
 >`withContext` 块结束运行后，login() 中的协程在主线程上恢复执行操作，并返回网络请求的结果。
 
+**But, what’s the compiler actually doing under the hood when we mark the function as `suspend`?**
+
+### Continuation interface
+
+The way suspend functions communicate with each other is with `Continuation` objects.
+A Continuation is just a generic callback interface with some extra information. 
+As we will see later, it will represent the generated state machine of a suspend function.
+
+```
+interface Continuation<in T> {
+  public val context: CoroutineContext
+  public fun resumeWith(value: Result<T>)
+}
+```
+
+```
+suspend fun loginUser(userId: String, password: String): User {
+  val user = userRemoteDataSource.logUserIn(userId, password)
+  val userDb = userLocalDataSource.logUserIn(user)
+  return userDb
+}
+
+// UserRemoteDataSource.kt
+suspend fun logUserIn(userId: String, password: String): User
+
+// UserLocalDataSource.kt
+suspend fun logUserIn(userId: String): UserDb
+```
+
+Kotlin compiler:
+
+```
+fun loginUser(userId: String, password: String, completion: Continuation<Any?>) {
+  val user = userRemoteDataSource.logUserIn(userId, password)
+  val userDb = userLocalDataSource.logUserIn(user)
+  completion.resume(userDb)
+}
+```
+
+
+
+
+
+
+
 
 
 

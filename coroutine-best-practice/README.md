@@ -82,20 +82,21 @@ interface Continuation<in T> {
 ```
 
 ```
-suspend fun loginUser(userId: String, password: String): User {
-  val user = userRemoteDataSource.logUserIn(userId, password)
-  val userDb = userLocalDataSource.logUserIn(user)
-  return userDb
-}
-
 // UserRemoteDataSource.kt
 suspend fun logUserIn(userId: String, password: String): User
 
 // UserLocalDataSource.kt
 suspend fun logUserIn(userId: String): UserDb
+
+suspend fun loginUser(userId: String, password: String): User {
+  val user = userRemoteDataSource.logUserIn(userId, password)
+  val userDb = userLocalDataSource.logUserIn(user)
+  return userDb
+}
 ```
 
-Kotlin compiler:
+As you see, the Kotlin compiler is doing a lot for us!
+From this suspend function, The compiler generated all of this for us:
 
 ```
 fun loginUser(userId: String, password: String, completion: Continuation<Any?>) {
@@ -103,7 +104,70 @@ fun loginUser(userId: String, password: String, completion: Continuation<Any?>) 
   val userDb = userLocalDataSource.logUserIn(user)
   completion.resume(userDb)
 }
+
+fun loginUser(userId: String?, password: String?, completion: Continuation<Any?>) {
+
+    class LoginUserStateMachine(
+        // completion parameter is the callback to the function that called loginUser
+        completion: Continuation<Any?>
+    ): CoroutineImpl(completion) {
+        // objects to store across the suspend function
+        var user: User? = null
+        var userDb: UserDb? = null
+
+        // Common objects for all CoroutineImpl
+        var result: Any? = null
+        var label: Int = 0
+
+        // this function calls the loginUser again to trigger the 
+        // state machine (label will be already in the next state) and 
+        // result will be the result of the previous state's computation
+        override fun invokeSuspend(result: Any?) {
+            this.result = result
+            loginUser(null, null, this)
+        }
+    }
+
+    val continuation = completion as? LoginUserStateMachine ?: LoginUserStateMachine(completion)
+
+    when(continuation.label) {
+        0 -> {
+            // Checks for failures
+            throwOnFailure(continuation.result)
+            // Next time this continuation is called, it should go to state 1
+            continuation.label = 1
+            // The continuation object is passed to logUserIn to resume 
+            // this state machine's execution when it finishes
+            userRemoteDataSource.logUserIn(userId!!, password!!, continuation)
+        }
+        1 -> {
+            // Checks for failures
+            throwOnFailure(continuation.result)
+            // Gets the result of the previous state
+            continuation.user = continuation.result as User
+            // Next time this continuation is called, it should go to state 2
+            continuation.label = 2
+            // The continuation object is passed to logUserIn to resume 
+            // this state machine's execution when it finishes
+            userLocalDataSource.logUserIn(continuation.user, continuation)
+        }
+        2 -> {
+            // Checks for failures
+            throwOnFailure(continuation.result)
+            // Gets the result of the previous state
+            continuation.userDb = continuation.result as UserDb
+            // Resumes the execution of the function that called this one
+            continuation.cont.resume(continuation.userDb)
+        }
+        else -> throw IllegalStateException(...)
+    }
+}
 ```
+
+Ref:
+
+https://medium.com/androiddevelopers/the-suspend-modifier-under-the-hood-b7ce46af624f
+
 
 
 

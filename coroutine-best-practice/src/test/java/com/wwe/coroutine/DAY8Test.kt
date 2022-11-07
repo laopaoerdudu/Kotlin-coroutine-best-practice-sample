@@ -7,6 +7,8 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 import java.io.IOException
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 class DAY8Test {
 
@@ -43,17 +45,13 @@ class MainViewModel: ViewModel() {
     fun sampleMethod() {
         viewModelScope.launch(handler) {
             launch {
-               // throw CancellationException()
-                //throw IOException("Bad net")
                 delay(500)
-                println("child1 done")
+                work1()
             }.join()
 
             launch {
-                println("child2 done")
+                work2()
             }
-
-            println("DONE")
         }
     }
 
@@ -68,5 +66,15 @@ class MainViewModel: ViewModel() {
                 println("child2 done")
             }
         }
+    }
+
+    suspend fun work1() = suspendCancellableCoroutine<Int> { continuation ->
+        println("Work1 done")
+        continuation.resumeWithException(IOException("Bad net"))
+    }
+
+    suspend fun work2() = suspendCancellableCoroutine<Int> { continuation ->
+        println("Work2 done")
+        continuation.resume(2)
     }
 }

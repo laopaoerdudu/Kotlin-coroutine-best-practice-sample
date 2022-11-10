@@ -45,14 +45,13 @@ class MainViewModel: ViewModel() {
 
     fun sampleMethod() {
         viewModelScope.launch(handler) {
-            launch {
-                delay(500)
-                work3()
-            }.join()
-
-            launch {
-                work4()
-            }
+                launch {
+                    delay(500)
+                    work3()
+                }.join()
+                launch {
+                    work4()
+                }
         }
     }
 
@@ -92,9 +91,8 @@ class MainViewModel: ViewModel() {
     suspend fun work3() = suspendCancellableCoroutine<Unit> { continuation ->
         if (continuation.isActive) {
             println("Work3 done")
-            continuation.cancel(IOException("Bad net"))
-        } else {
-            continuation.cancel()
+            continuation.resume(Unit)
+           // continuation.cancel(IOException("Bad net"))
         }
         continuation.invokeOnCancellation { println("Work3 clean up") }
     }
@@ -103,8 +101,6 @@ class MainViewModel: ViewModel() {
         if (continuation.isActive) {
             println("Work4 done")
             continuation.resume(Unit)
-        } else {
-            continuation.cancel()
         }
         continuation.invokeOnCancellation { println("Work4 clean up") }
     }

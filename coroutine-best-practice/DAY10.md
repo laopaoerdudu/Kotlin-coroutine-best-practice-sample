@@ -37,8 +37,6 @@ public actual typealias CancellationException = java.util.concurrent.Cancellatio
 
 - 在超时的情况下不是抛出异常而是返回 null 的 `withTimeoutOrNull` 函数
 
-## 异步的超时和资源
-
 
 
 

@@ -70,4 +70,26 @@ class DAY10Test {
             println("main: Now I can quit.")
         }
     }
+
+    @Test
+    fun test3() = runTest {
+        withTimeout(1300L) {
+            repeat(1000) { i ->
+                println("I'm sleeping $i ...")
+                delay(500L)
+            }
+        }
+    }
+
+    @Test
+    fun test4() = runTest {
+        val result = withTimeoutOrNull(1300L) {
+            repeat(1000) { i ->
+                println("I'm sleeping $i ...")
+                delay(500L)
+            }
+            "Done" // will get cancelled before it produces this result
+        }
+        println("Result is $result")
+    }
 }

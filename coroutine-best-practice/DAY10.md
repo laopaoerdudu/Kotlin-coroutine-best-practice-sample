@@ -27,6 +27,18 @@ public actual typealias CancellationException = java.util.concurrent.Cancellatio
 
 - 如果 exception 是 CancellationException ，那么它将被忽略(因为这是取消正在运行的协程的假定机制)。
 
+## 超时取消
+
+使用了 `withTimeout` ，运行过程中会导致 Crash 。
+
+有两种解决办法：
+
+- 使用 `try{…} catch (ex: TimeoutCancellationException){…}` 代码块
+
+- 在超时的情况下不是抛出异常而是返回 null 的 `withTimeoutOrNull` 函数
+
+## 异步的超时和资源
+
 
 
 

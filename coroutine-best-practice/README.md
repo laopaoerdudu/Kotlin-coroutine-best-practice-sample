@@ -164,6 +164,10 @@ fun loginUser(userId: String?, password: String?, completion: Continuation<Any?>
 }
 ```
 
+`CoroutineExceptionHandler` 用于记录异常、显示某种类型的错误消息、终止和/或重新启动应用程序。
+
+**注意协程抛出 CancellationException 并不会导致 App Crash 。**
+
 Ref:
 
 https://medium.com/androiddevelopers/the-suspend-modifier-under-the-hood-b7ce46af624f

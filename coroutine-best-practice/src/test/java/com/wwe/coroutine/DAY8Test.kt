@@ -90,9 +90,10 @@ class MainViewModel: ViewModel() {
 
     suspend fun work3() = suspendCancellableCoroutine<Unit> { continuation ->
         if (continuation.isActive) {
-            println("Work3 done")
-            continuation.resume(Unit)
-           // continuation.cancel(IOException("Bad net"))
+            // println("Work3 done")
+            // continuation.resume(Unit)
+            // continuation.cancel(IOException("Bad net"))
+            continuation.cancel(CancellationException("cancel"))
         }
         continuation.invokeOnCancellation { println("Work3 clean up") }
     }

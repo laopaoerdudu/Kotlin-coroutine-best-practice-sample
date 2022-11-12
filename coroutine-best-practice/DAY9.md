@@ -26,3 +26,14 @@ Since the coroutineScope will wait for all children to complete, it can also get
 If a coroutine started by coroutineScope throws an exception, coroutineScope can throw it to the caller. 
 Since we’re using coroutineScope instead of supervisorScope, 
 it would also immediately cancel all other children when the exception is thrown.
+
+---
+
+There are three basic patterns that you can use for a one shot request to ensure that exactly one request runs at a time.
+
+- Cancel previous work before starting more.
+
+- Queue the next work and wait for the previous requests to complete before starting another one.
+
+- Join previous work if there’s already a request running just return that one instead of starting another request.
+

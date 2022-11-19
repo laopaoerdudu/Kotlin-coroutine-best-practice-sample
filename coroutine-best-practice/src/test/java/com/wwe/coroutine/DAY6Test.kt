@@ -15,7 +15,7 @@ class DAY6Test {
     fun test_supervisorScopeBehavior_badPractice() = runTest {
         val scope = CoroutineScope(Job())
         // SupervisorJob does nothing in this code!
-        scope.launch(SupervisorJob()) {
+        val job = scope.launch(SupervisorJob()) {
             launch {
                 throw IOException("Bad net")
             }
@@ -25,6 +25,8 @@ class DAY6Test {
             }
             println("#parrent done")
         }
+
+        job.join()
     }
 
     @Test

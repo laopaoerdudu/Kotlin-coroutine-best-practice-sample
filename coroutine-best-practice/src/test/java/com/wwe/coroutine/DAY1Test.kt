@@ -124,6 +124,7 @@ class HomeViewModelTestUsingRule {
     fun settingMainDispatcher() = runTest { // Uses Main’s scheduler
         val viewModel = HomeViewModel()
         viewModel.loadMessage()
+        advanceUntilIdle()
         assertEquals("Greetings!", viewModel.message.value)
     }
 }
@@ -142,6 +143,7 @@ class DispatcherTypesTest {
        // val standardRepo = Repository(StandardTestDispatcher())
 
         unconfinedRepo.initialize()
+        advanceUntilIdle()
         assertEquals(true, unconfinedRepo.initialized.get())
 
         val data = unconfinedRepo.fetchData()

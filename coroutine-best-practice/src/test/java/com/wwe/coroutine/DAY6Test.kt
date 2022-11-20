@@ -102,10 +102,10 @@ class DAY6Test {
     @Test
     fun test_supervisorScope_handle_exception() = runTest {
         supervisorScope {
+            val deferred = async {
+                throw IOException("Bad net")
+            }
             try {
-                val deferred = async {
-                    throw IOException("Bad net")
-                }
                 deferred.await()
             } catch (e: Exception) {
                 println("WILL catch the Exception")

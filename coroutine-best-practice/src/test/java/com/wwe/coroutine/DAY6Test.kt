@@ -48,9 +48,11 @@ class DAY6Test {
 
     @Test
     fun test_supervisorScopeBehavior_goodPractice2() = runTest {
-        val scope = CoroutineScope(SupervisorJob())
+        // val scope = CoroutineScope(SupervisorJob())
+        val scope = CoroutineScope(Job())
         scope.launch {
-            throw IOException("Bad net")
+             //throw IOException("Bad net")
+            throw CancellationException("Bad net")
         }
         scope.launch {
             // child#2 will not be cancelled.
@@ -64,7 +66,8 @@ class DAY6Test {
             try {
                 launch {
                     /** With launch, exceptions will be thrown as soon as they happen */
-                    throw IOException("Bad net")
+                    // throw IOException("Bad net")
+                    throw CancellationException("Bad net")
                 }
             } catch (e: Exception) {
                 /**
@@ -84,17 +87,17 @@ class DAY6Test {
          */
         coroutineScope {
             val deferred = async {
-                throw IOException("Bad net")
+                //throw IOException("Bad net")
+                throw CancellationException("Bad net")
             }
             try {
                 deferred.await()
-            } catch (e: Exception) {
+            } catch (ex: Exception) {
                 /**
                  * using `coroutineScope`, Exception thrown in async WILL NOT be caught here
                  * but propagated up to the scope
                  */
-                println("WILL NOT catch Exception")
-                e.printStackTrace()
+                ex.printStackTrace()
             }
         }
     }

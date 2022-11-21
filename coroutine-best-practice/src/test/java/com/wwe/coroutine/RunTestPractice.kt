@@ -137,14 +137,14 @@ class RunTestPractice {
 //        }
 //    }
 
-    suspend fun veryExpensiveFunction() = withContext(Dispatchers.Default) {
-        delay(1_000)
+    suspend fun veryExpensiveFunction(dispatcher: CoroutineDispatcher = Dispatchers.Default) = withContext(dispatcher) {
+        delay(10_000)
         1
     }
 
     @Test
     fun testExpensiveFunction() = runTest {
-        val result = veryExpensiveFunction() // will take a whole real-time second to execute
+        val result = veryExpensiveFunction(UnconfinedTestDispatcher(testScheduler)) // will take a whole real-time second to execute
         // the virtual time at this point is still 0
 
         assert(1 == result)

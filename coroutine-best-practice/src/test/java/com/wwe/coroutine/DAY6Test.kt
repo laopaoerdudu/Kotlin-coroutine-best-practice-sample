@@ -48,8 +48,8 @@ class DAY6Test {
 
     @Test
     fun test_supervisorScopeBehavior_goodPractice2() = runTest {
-        // val scope = CoroutineScope(SupervisorJob())
-        val scope = CoroutineScope(Job())
+        val scope = CoroutineScope(SupervisorJob())
+       // val scope = CoroutineScope(Job())
         scope.launch {
              //throw IOException("Bad net")
             throw CancellationException("Bad net")

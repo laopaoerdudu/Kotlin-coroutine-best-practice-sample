@@ -168,6 +168,8 @@ fun loginUser(userId: String?, password: String?, completion: Continuation<Any?>
 
 **注意协程抛出 CancellationException 并不会导致 App Crash 。**
 
+**如果根协程或者scope中没有设置 `CoroutineExceptionHandler`，异常会被直接抛出。**
+
 Ref:
 
 https://medium.com/androiddevelopers/the-suspend-modifier-under-the-hood-b7ce46af624f

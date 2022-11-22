@@ -2,13 +2,18 @@ package com.wwe
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.wwe.tasks.TasksViewModel
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+@ExperimentalCoroutinesApi
 class TasksViewModelTest {
+
+    @ExperimentalCoroutinesApi
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
 
     // Executes each task synchronously using Architecture Components.
     @get:Rule
@@ -39,5 +44,14 @@ class TasksViewModelTest {
         // THEN
         val value = tasksViewModel.openTaskEvent.getOrAwaitValue()
         assertEquals("WWE", value.getContentIfNotHandled())
+    }
+
+    @Test
+    fun testRefresh() {
+        // WHEN
+        tasksViewModel.refresh()
+
+        // THEN
+        assertTrue(tasksViewModel.dataLoading.getOrAwaitValue())
     }
 }

@@ -39,7 +39,7 @@ class DAY8Test {
 
 class MainViewModel: ViewModel() {
 
-    private val handler = CoroutineExceptionHandler { context, exception ->
+    private val handler = CoroutineExceptionHandler { _, exception ->
         println("Caught $exception")
     }
 
@@ -51,7 +51,7 @@ class MainViewModel: ViewModel() {
                 }.join()
                 launch {
                     work4()
-                }
+                }.join()
         }
     }
 
@@ -64,7 +64,7 @@ class MainViewModel: ViewModel() {
 
             launch {
                 println("child2 done")
-            }
+            }.join()
         }
     }
 

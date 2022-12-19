@@ -27,7 +27,7 @@ class DAY1Test {
         assertEquals("Hello world", data)
     }
 
-    suspend fun fetchData(): String {
+    private suspend fun fetchData(): String {
         delay(1000L)
         return "Hello world"
     }
@@ -140,7 +140,7 @@ class DispatcherTypesTest {
         val unconfinedRepo = Repository(mainDispatcherRule.testDispatcher)
 
         // Create a new StandardTestDispatcher (uses Main’s scheduler)
-       // val standardRepo = Repository(StandardTestDispatcher())
+        // val standardRepo = Repository(StandardTestDispatcher())
 
         unconfinedRepo.initialize()
         advanceUntilIdle()

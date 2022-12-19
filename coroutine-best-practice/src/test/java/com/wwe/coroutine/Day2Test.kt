@@ -13,7 +13,7 @@ class Day2Test {
         scope.launch(SupervisorJob()) {
             /**
              * 子协程在 launch 时会创建新的协程作用域，其会使用默认新的 Job 替代我们传递 SupervisorJob，所以导致我们传递的 SupervisorJob 被覆盖。
-             * 所以如果我们想让子协程不影响父协程或者其他子协程，此时就必须再显示添加 SupervisorJob。 */
+             */
             launch(CoroutineName("A")) {
                 delay(10)
                 throw RuntimeException()
@@ -29,6 +29,7 @@ class Day2Test {
     fun test1() = runTest {
         val scope = CoroutineScope(CoroutineExceptionHandler { _, _ -> })
         scope.launch(SupervisorJob()) {
+            //  如果我们想让子协程不影响父协程或者其他子协程，此时就必须再显示添加 SupervisorJob。
             launch(CoroutineName("A") + SupervisorJob()) {
                 delay(10)
                 throw RuntimeException()
@@ -80,8 +81,8 @@ class Day2Test {
             val asyncB = async(SupervisorJob() + CoroutineExceptionHandler { _, _ -> }) {
                 "OK"
             }
-            asyncA.await()
-            asyncB.await()
+            println("asyncA -> ${asyncA.await()}")
+            println("asyncB -> ${asyncB.await()}")
         }.join()
     }
 
@@ -99,8 +100,8 @@ class Day2Test {
             }
 
             /** runCatching 是 kotlin 中对于 tryCatch 的一种包装 */
-            val resultA = kotlin.runCatching { asyncA.await() }
-            val resultB = kotlin.runCatching { asyncB.await() }
+            kotlin.runCatching { println("asyncA -> ${asyncA.await()}") }
+            kotlin.runCatching { println("asyncB -> ${asyncB.await()}")  }
         }.join()
     }
 }

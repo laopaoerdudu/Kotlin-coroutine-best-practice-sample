@@ -13,9 +13,9 @@ class DAY6Test {
 
     @Test
     fun test_supervisorScopeBehavior_badPractice() = runTest {
-        val scope = CoroutineScope(Job())
+        val scope = CoroutineScope(SupervisorJob())
         // SupervisorJob does nothing in this code!
-        val job = scope.launch(SupervisorJob()) {
+        val job = scope.launch {
             launch {
                 throw IOException("Bad net")
             }
@@ -66,8 +66,8 @@ class DAY6Test {
             try {
                 launch {
                     /** With launch, exceptions will be thrown as soon as they happen */
-                    // throw IOException("Bad net")
-                    throw CancellationException("Bad net")
+                     throw IOException("Bad net")
+                    // throw CancellationException("Bad net")
                 }
             } catch (e: Exception) {
                 /**
@@ -97,7 +97,7 @@ class DAY6Test {
                  * using `coroutineScope`, Exception thrown in async WILL NOT be caught here
                  * but propagated up to the scope
                  */
-                ex.printStackTrace()
+                println("WILL catch the Exception")
             }
         }
     }
@@ -116,7 +116,7 @@ class DAY6Test {
         }
     }
 
-    private val handler = CoroutineExceptionHandler { context, exception ->
+    private val handler = CoroutineExceptionHandler { _, exception ->
         println("Caught $exception")
     }
 

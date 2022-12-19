@@ -3,7 +3,6 @@ package com.wwe.coroutine
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
-import kotlinx.coroutines.NonCancellable.cancel
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
